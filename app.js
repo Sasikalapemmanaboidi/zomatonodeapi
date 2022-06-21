@@ -88,13 +88,13 @@ app.get('/filters/:mealId',(req,res) => {
         res.send(result)
     })
 })
-//details
-app.get('/details',(req,res) =>{
-    db.collection('RestaurantsData').find().toArray((err,result) => {
-        if(err) throw err;
-        res.send(result)
-    })
-})
+// //details
+// app.get('/details',(req,res) =>{
+//     db.collection('RestaurantsData').find().toArray((err,result) => {
+//         if(err) throw err;
+//         res.send(result)
+//     })
+// })
 
 //restaurantDetails
 app.get('/details/:restId',(req,res) => {
@@ -104,7 +104,6 @@ app.get('/details/:restId',(req,res) => {
         res.send(result)
     })
 })
-
 
 //menu
 app.get('/menu',(req,res) => {
