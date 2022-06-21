@@ -5,7 +5,7 @@ const MongoClient = mongo.MongoClient;
 const dotenv = require('dotenv');
 dotenv.config()
 let port = process.env.PORT || 5522;
-const mongoUrl = "mongodb+srv://sasikala:9A9bmbnbjnF6V73U@cluster0.pk0tf.mongodb.net/zomatoproject?retryWrites=true&w=majority"
+const mongoLiveUrl = process.env.mongoLiveUrl;
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const token = "8fbf8tyyt87378";
@@ -96,14 +96,17 @@ app.get('/filters/:mealId',(req,res) => {
 //     })
 // })
 
-//restaurantDetails
-app.get('/details/:restId',(req,res) => {
-    const restId = Number(req.params.restId);
-    db.collection('RestaurantsData').find({restaurant_id:restId}).toArray((err,result) => {
-        if(err) throw err;
-        res.send(result)
-    })
+
+app.get("/details/:restId", (req, res) => {
+    let restId = Number(req.params.restId);
+    db.collection("RestaurantsData")
+    .find({ restaurant_id: restId })
+    .toArray((err, result) => {
+        if (err) throw err;
+        res.send(result);
+    });
 })
+
 
 //menu
 app.get('/menu',(req,res) => {
@@ -178,7 +181,7 @@ app.put('/updateOrder/:id',(req,res) => {
 })
 
 // Connection with db
-MongoClient.connect(mongoUrl, (err,client) => {
+MongoClient.connect(mongoLiveUrl, (err,client) => {
     if(err) console.log(`Error while connecting`);
     db = client.db('zomatoproject');
     app.listen(port,() => {
