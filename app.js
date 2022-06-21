@@ -15,10 +15,10 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
 app.use(cors())
 
-
 app.get('/',(req,res) => {
-    res.send("Welcome to Express")
+    res.send("Welcome to Live Database World")
 })
+
 
 //location
 app.get('/location',(req,res)=>{
@@ -88,12 +88,18 @@ app.get('/filters/:mealId',(req,res) => {
         res.send(result)
     })
 })
+//details
+app.get('/details',(req,res) =>{
+    db.collection('RestaurantsData').find().toArray((err,result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+})
 
 //restaurantDetails
-app.get('/details/:id',(req,res) => {
-    //let restId = Number(req.params.id);
-    let restId = mongo.ObjectId(req.params.id)
-    db.collection('RestaurantsData').find({_id:restId}).toArray((err,result) => {
+app.get('/details/:restId',(req,res) => {
+    const restId = Number(req.params.restId);
+    db.collection('RestaurantsData').find({restaurant_id:restId}).toArray((err,result) => {
         if(err) throw err;
         res.send(result)
     })
@@ -134,7 +140,6 @@ app.post('/placeOrder',(req,res) => {
     })
 })
 
-
 // View Order
 app.get('/viewOrder',(req,res) => {
     let email = req.query.email;
@@ -154,7 +159,6 @@ app.delete('/deleteOrders',(req,res)=>{
         res.send('order deleted')
     })
 })
-
 
 //update orders
 app.put('/updateOrder/:id',(req,res) => {
